@@ -1,178 +1,283 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KMNIST Character Classification | ECEN Project</title>
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-
-    <style>
-        body {
-            margin: 0;
-            font-family: "Inter", sans-serif;
-            background: #f8f9fa;
-            color: #222;
-            line-height: 1.65;
-        }
-        header {
-            background: #111;
-            color: white;
-            padding: 60px 20px;
-            text-align: center;
-        }
-        header h1 { font-size: 40px; font-weight: 800; }
-        header p { font-size: 18px; opacity: 0.8; }
-
-        nav {
-            background: #222;
-            padding: 10px 0;
-            text-align: center;
-        }
-        nav a {
-            color: #fff;
-            margin: 0 15px;
-            text-decoration: none;
-            font-weight: 600;
-        }
-        nav a:hover { color: #0ff; }
-
-        section {
-            max-width: 900px;
-            margin: auto;
-            padding: 40px 20px;
-            background: white;
-            margin-top: 30px;
-            border-radius: 10px;
-        }
-        h2 { border-left: 4px solid #007bff; padding-left: 10px; }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        table, th, td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: center;
-        }
-        footer {
-            text-align: center;
-            padding: 40px 20px;
-            margin-top: 40px;
-            background: #111;
-            color: #bbb;
-        }
-    </style>
-
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KMNIST Character Classification — Group 10</title>
+  <meta name="description" content="KMNIST Character Classification: logistic regression, CNNs, few-shot and Siamese networks. Project by Group 10, Texas A&M." />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { padding-top: 4.5rem; }
+    .hero { background: linear-gradient(90deg,#0d6efd1a,#6f42c11a); padding: 4rem 0; }
+    .card-figure { max-height: 280px; object-fit: contain; }
+    pre.codebox { background:#0f1720; color:#d1d5db; padding:1rem; border-radius:.5rem; overflow:auto; }
+    footer { padding: 3rem 0; color:#6c757d; }
+    .tag { font-size:.85rem; padding:.25rem .5rem; border-radius:.4rem; background:#eef2ff; color:#3730a3; margin-right:.4rem;}
+  </style>
 </head>
 <body>
-
-<header>
-    <h1>KMNIST Character Classification</h1>
-    <p>Logistic Regression, CNNs, and Few-Shot Learning</p>
-    <p><strong>Texas A&M University</strong></p>
-</header>
-
-<nav>
-    <a href="#abstract">Abstract</a>
-    <a href="#methodology">Methodology</a>
-    <a href="#results">Results</a>
-    <a href="#fewshot">Few-Shot Learning</a>
-    <a href="#conclusion">Conclusion</a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="#">KMNIST Project — Group 10</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div id="navmenu" class="collapse navbar-collapse">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="#overview">Overview</a></li>
+        <li class="nav-item"><a class="nav-link" href="#methodology">Methodology</a></li>
+        <li class="nav-item"><a class="nav-link" href="#experiments">Experiments</a></li>
+        <li class="nav-item"><a class="nav-link" href="#results">Results</a></li>
+        <li class="nav-item"><a class="nav-link" href="#fewshot">Few-Shot</a></li>
+        <li class="nav-item"><a class="nav-link" href="#resources">Resources</a></li>
+      </ul>
+    </div>
+  </div>
 </nav>
 
-<section id="abstract">
-    <h2>Abstract</h2>
-    <p>
-        This project examines handwritten Kuzushiji character recognition using the KMNIST dataset.
-        We compare logistic regression with several CNN architectures including a Simple CNN,
-        ResNet-like CNN, and an Improved CNN with BatchNorm and Dropout. A tuned CNN reaches 
-        <strong>97% accuracy</strong>. We also extend the project to few-shot learning using 
-        Siamese networks achieving <strong>77% one-shot accuracy</strong>.
-    </p>
-</section>
+<header class="hero">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-8">
+        <h1 class="display-5">KMNIST Character Classification</h1>
+        <p class="lead">From a logistic regression baseline to tuned CNNs and few-shot Siamese networks — this project evaluates architectures, tuning, and interpretability on Kuzushiji-MNIST.</p>
+        <p>
+          <span class="tag">KMNIST</span>
+          <span class="tag">CNN</span>
+          <span class="tag">Few-Shot</span>
+          <span class="tag">Siamese Network</span>
+        </p>
+        <p>
+          <a class="btn btn-primary btn-lg" href="/mnt/data/ECEN_data_mining_and_analysis_project.pdf" role="button" target="_blank">Download Full Report (PDF)</a>
+          <a class="btn btn-outline-secondary btn-lg" href="#resources">View Code & Blog</a>
+        </p>
+      </div>
+      <div class="col-lg-4 d-none d-lg-block">
+        <div class="card shadow-sm">
+          <img src="assets/images/fig_pca_placeholder.png" alt="PCA scatter placeholder" class="card-img-top card-figure">
+          <div class="card-body">
+            <h6 class="card-title">PCA of KMNIST (placeholder)</h6>
+            <p class="card-text small text-muted">Replace this image with <code>fig_pca.png</code> exported from the PDF.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
 
-<section id="methodology">
+<main class="container my-5">
+  <section id="overview" class="mb-5">
+    <div class="row">
+      <div class="col-lg-8">
+        <h2>Overview</h2>
+        <p>The Kuzushiji-MNIST (KMNIST) dataset contains 70,000 28×28 grayscale images of cursive Japanese characters across 10 classes. This work explores the performance gap between linear models and convolutional approaches, the effect of regularization and residual connections, and studies few-shot/metric-learning techniques to operate in low-data regimes.</p>
+
+        <h4>Project goals</h4>
+        <ul>
+          <li>Establish a logistic regression baseline on flattened pixels.</li>
+          <li>Implement and compare three CNN variants: Simple CNN, ResNet-like, and Improved CNN with batch norm + dropout.</li>
+          <li>Perform validation-driven hyperparameter tuning to produce a TunedImprovedCNN.</li>
+          <li>Analyze failure cases and saliency maps for interpretability.</li>
+          <li>Explore few-shot supervised learning and Siamese metric learning for one-shot classification.</li>
+        </ul>
+      </div>
+      <div class="col-lg-4">
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Team</h5>
+            <p class="mb-0"><strong>Noureddin Lutfi</strong><br /><small>noorlutfe@tamu.edu</small></p>
+            <p class="mb-0"><strong>Aditya Rajiv</strong><br /><small>adiman@tamu.edu</small></p>
+            <p class="mb-0"><strong>Nuo Chen</strong><br /><small>nuochen@tamu.edu</small></p>
+            <p class="mb-0"><strong>Diviya Bhavaani</strong><br /><small>diviyabhavaani@tamu.edu</small></p>
+            <hr>
+            <a href="https://github.com/adimantamu/ECEN_Data_Mining_Project_Group10" target="_blank">GitHub Repository</a><br>
+            <a href="https://diviyabhavaani-mb.github.io/KMNIST_GROUP_10_Project_Blog/" target="_blank">Project Blog Post</a>
+          </div>
+        </div>
+        <div class="alert alert-info small">
+          Want this site as a Jekyll theme? Put this file in a Jekyll-enabled repo and add the front matter — I can prepare that too.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="methodology" class="mb-5">
     <h2>Methodology</h2>
+    <p>This section describes dataset preprocessing, model architectures, training procedures, and hyperparameter tuning.</p>
 
-    <h3>Dataset</h3>
-    <p>
-        KMNIST contains 70,000 28×28 grayscale images—
-        60,000 for training and 10,000 for testing. Images are normalized and split into
-        48,000 training and 12,000 validation samples.
-    </p>
+    <h4>Dataset & preprocessing</h4>
+    <p>KMNIST images are normalized to [0,1] and reshaped for CNN input. For model selection we used an 80/20 train/validation split of the original 60,000 training images (48k train, 12k validation). Data augmentation was not the main focus for the baseline experiments but is recommended for future work (rotations, slight affine transforms, intensity jitter).</p>
 
-    <h3>Models</h3>
+    <h4>Baseline: Multinomial Logistic Regression</h4>
+    <p>We flattened each 28×28 image into a 784-dimensional vector, standardized features using <code>StandardScaler</code>, and trained an sklearn multinomial logistic regression on a random subset of 10,000 training samples to get a quick baseline.</p>
+
+    <h4>Model architectures (high level)</h4>
+    <ol>
+      <li><strong>Simple CNN</strong> — 2 convolutional layers (32→64), ReLU, 2×2 max-pool, FC to 128 then to 10 classes. Trained with Adam (LR=1e-3) for 5 epochs.</li>
+      <li><strong>ResNet-like CNN</strong> — 2 residual blocks (skip connections), batch pooling, FC head. Trained for 10 epochs.</li>
+      <li><strong>Improved CNN</strong> — deeper stack of residual-like blocks, BatchNorm after convolutions, dropout in FC layer (0.4). Trained with Adam.</li>
+    </ol>
+
+    <h4>Hyperparameter Tuning</h4>
+    <p>A grid search validated learning rate, dropout, and batch size. The grid: LR ∈ {0.001, 0.0005}, dropout ∈ {0.3,0.4,0.5}, batch size ∈ {64,128}. Each candidate was trained for 3 epochs during the search, and the best was retrained for 10 epochs.</p>
+  </section>
+
+  <section id="experiments" class="mb-5">
+    <h2>Experiments & Training Details</h2>
+    <div class="row">
+      <div class="col-md-6">
+        <h5>Training choices</h5>
+        <ul>
+          <li>Loss: Cross-entropy (multi-class)</li>
+          <li>Optimizer: Adam</li>
+          <li>Normalization: BatchNorm for deeper networks</li>
+          <li>Regularization: Dropout in fully connected layers</li>
+          <li>Validation monitoring: choose best epoch by validation accuracy</li>
+        </ul>
+        <h5>Compute & reproducibility</h5>
+        <p>Experiments were run on a single GPU when available; random seeds were fixed for reproducibility. All notebooks and training scripts are available in the repository linked above.</p>
+      </div>
+
+      <div class="col-md-6">
+        <h5>Few-Shot Protocol</h5>
+        <p>For supervised few-shot: sample K ∈ {1,5,10} images per class (fixed seed), train the Simple CNN for 15 epochs, evaluate on the full test set. For metric learning: train a Siamese CNN encoder with contrastive loss; evaluate in 10-way one-shot using a single support image per class (prototypes).</p>
+      </div>
+    </div>
+
+    <hr>
+
+    <h5>Code snippet (PyTorch-style training loop overview)</h5>
+    <pre class="codebox"><code># simplified; see repo for full code
+for epoch in range(epochs):
+    model.train()
+    for X,y in train_loader:
+        pred = model(X)
+        loss = criterion(pred, y)
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+    val_acc = evaluate(model, val_loader)
+    if val_acc > best:
+        save_checkpoint(model)</code></pre>
+  </section>
+
+  <section id="results" class="mb-5">
+    <h2>Results & Analysis</h2>
+    <p>Summary of test performance across models (full table in the paper):</p>
+
+    <div class="table-responsive mb-3">
+      <table class="table table-striped">
+        <thead>
+          <tr><th>Model</th><th>Accuracy</th><th>Precision</th><th>Recall</th><th>F1</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Logistic Regression</td><td>0.598</td><td>0.609</td><td>0.598</td><td>0.600</td></tr>
+          <tr><td>Simple CNN</td><td>0.934</td><td>0.935</td><td>0.934</td><td>0.934</td></tr>
+          <tr><td>ResNet-like CNN</td><td>0.943</td><td>0.943</td><td>0.943</td><td>0.943</td></tr>
+          <tr><td>Improved CNN</td><td>0.967</td><td>0.968</td><td>0.967</td><td>0.967</td></tr>
+          <tr><td>TunedImprovedCNN</td><td><strong>0.970</strong></td><td>0.970</td><td>0.970</td><td>0.970</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h5>Error analysis</h5>
+    <p>Confusion matrices indicate most remaining errors are visually ambiguous characters (faint strokes, missing components). Saliency maps corroborate that the model focuses on the main strokes; errors happen when discriminative stroke elements are missing or noisy.</p>
+
+    <h5>Figures (replace placeholders)</h5>
+    <div class="row">
+      <div class="col-md-6 mb-4">
+        <div class="card">
+          <img class="card-img-top card-figure" src="assets/images/fig_confusion_simple.png" alt="Confusion Simple">
+          <div class="card-body">
+            <p class="card-text">Confusion matrix — Simple CNN. <em>Replace with actual exported image.</em></p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 mb-4">
+        <div class="card">
+          <img class="card-img-top card-figure" src="assets/images/fig_confusion_improved.png" alt="Confusion Improved">
+          <div class="card-body">
+            <p class="card-text">Confusion matrix — Improved CNN.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="fewshot" class="mb-5">
+    <h2>Research Extension — Few-Shot & Metric Learning</h2>
+    <p>We evaluated the Simple CNN in severely limited-data regimes and implemented a Siamese network for metric learning.</p>
+
+    <h5>Few-shot supervised baseline</h5>
+    <p>With only K labeled samples per class the Simple CNN obtains:</p>
     <ul>
-        <li><strong>Logistic Regression:</strong> 60% accuracy.</li>
-        <li><strong>Simple CNN:</strong> 93% accuracy.</li>
-        <li><strong>ResNet-like CNN:</strong> 94% accuracy.</li>
-        <li><strong>Improved CNN:</strong> 96.7% accuracy.</li>
-        <li><strong>TunedImprovedCNN:</strong> 97.0% accuracy.</li>
+      <li>K=1 → 32.21% test accuracy</li>
+      <li>K=5 → 45.08% test accuracy</li>
+      <li>K=10 → 53.34% test accuracy</li>
     </ul>
 
-    <h3>Hyperparameter Tuning</h3>
-    <p>
-        Grid search over learning rate, dropout, batch size.  
-        Best config: <strong>LR=0.001, Dropout=0.4, Batch=128</strong>.
-    </p>
-</section>
+    <h5>Siamese network</h5>
+    <p>A Siamese convolutional network trained with contrastive loss produced a 256-D embedding. In 10-way one-shot evaluation using nearest-prototype classification, it reached <strong>77.67%</strong> accuracy — a large improvement for extreme low-data scenarios.</p>
 
-<section id="results">
-    <h2>Experimental Results</h2>
+    <blockquote class="blockquote">Practical note: metric learning is often more robust than naïve supervised training in one-shot/low-shot settings because it optimizes for instance similarity rather than mapping inputs directly to labels.</blockquote>
+  </section>
 
-    <table>
-        <tr>
-            <th>Model</th>
-            <th>Accuracy</th>
-            <th>Precision</th>
-            <th>Recall</th>
-            <th>F1</th>
-        </tr>
-        <tr><td>Logistic Regression</td><td>0.598</td><td>0.609</td><td>0.598</td><td>0.600</td></tr>
-        <tr><td>Simple CNN</td><td>0.934</td><td>0.935</td><td>0.934</td><td>0.934</td></tr>
-        <tr><td>ResNet-like CNN</td><td>0.943</td><td>0.943</td><td>0.943</td><td>0.943</td></tr>
-        <tr><td>Improved CNN</td><td>0.967</td><td>0.968</td><td>0.967</td><td>0.967</td></tr>
-        <tr><td><strong>TunedImprovedCNN</strong></td><td><strong>0.970</strong></td><td>0.970</td><td>0.970</td><td>0.970</td></tr>
-    </table>
-</section>
+  <section id="resources" class="mb-5">
+    <h2>Resources</h2>
+    <ul>
+      <li><strong>Repo:</strong> <a href="https://github.com/adimantamu/ECEN_Data_Mining_Project_Group10" target="_blank">adimantamu/ECEN_Data_Mining_Project_Group10</a></li>
+      <li><strong>Project blog:</strong> <a href="https://diviyabhavaani-mb.github.io/KMNIST_GROUP_10_Project_Blog/" target="_blank">KMNIST Group 10 Blog</a></li>
+      <li><strong>Full report (PDF):</strong> <a href="/mnt/data/ECEN_data_mining_and_analysis_project.pdf" target="_blank">Download PDF</a></li>
+    </ul>
 
-<section id="fewshot">
-    <h2>Few-Shot Learning</h2>
+    <h5>How to reproduce</h5>
+    <p>See the repository for Jupyter notebooks that include training loops, model definitions, grid search code, and scripts to generate the figures in this site.</p>
 
-    <h3>Supervised Few-Shot (Simple CNN)</h3>
-    <table>
-        <tr><th>K samples/class</th><th>Accuracy</th></tr>
-        <tr><td>1</td><td>0.322</td></tr>
-        <tr><td>5</td><td>0.451</td></tr>
-        <tr><td>10</td><td>0.533</td></tr>
-    </table>
+    <h5>How to use the images in this HTML</h5>
+    <ol>
+      <li>Extract images from the PDF (see detailed instructions below).</li>
+      <li>Place extracted images in <code>assets/images/</code> inside your repo.</li>
+      <li>Ensure the filenames match the <code>src</code> values in this HTML (or update the paths).</li>
+    </ol>
+  </section>
 
-    <h3>Siamese Network (One-Shot)</h3>
-    <p><strong>One-shot accuracy: 77.67%</strong></p>
-</section>
+  <section class="mb-5">
+    <h3>Deployment & next steps</h3>
+    <p>Once images are added and the file is committed:</p>
+    <ol>
+      <li>Push to GitHub: <code>git add . &amp;&amp; git commit -m "Update site" &amp;&amp; git push</code></li>
+      <li>Enable GitHub Pages in repo Settings → Pages (branch: <code>main</code> or <code>gh-pages</code>)</li>
+      <li>Your site will be live at <code>&lt;username&gt;.github.io/&lt;repo&gt;</code> or <code>&lt;username&gt;.github.io</code> if the repo is named <code>&lt;username&gt;.github.io</code>.</li>
+    </ol>
+  </section>
 
-<section id="conclusion">
-    <h2>Conclusion</h2>
-    <p>
-        CNNs dramatically outperform linear models for character recognition on KMNIST.
-        Hyperparameter tuning yields a robust 97% model, and metric learning techniques 
-        provide strong few-shot performance. Future work includes data augmentation and 
-        deeper architectures.
-    </p>
+  <hr>
 
-    <p><strong>GitHub Repository:</strong>  
-        <a href="https://github.com/adimantamu/ECEN_Data_Mining_Project_Group10" target="_blank">
-            ECEN Project Repo
-        </a>
-    </p>
-</section>
+  <section class="mb-5">
+    <h4>Want me to:</h4>
+    <ul>
+      <li>Automatically extract images from your PDF and update the HTML image tags? (I can show commands you can run locally.)</li>
+      <li>Convert this into a Jekyll-ready site with navigation and blog posts? (I can add front matter.)</li>
+      <li>Generate a smaller, mobile-first layout or a printable version? (Say which.)</li>
+    </ul>
+  </section>
 
-<footer>
-    &copy; 2025 Texas A&M University — KMNIST Project Group 10
+</main>
+
+<footer class="bg-light">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        <p><strong>KMNIST Character Classification — Group 10</strong> — Texas A&M University</p>
+        <p class="small">Authors: Noureddin Lutfi, Aditya Rajiv, Nuo Chen, Diviya Bhavaani. For full technical details, figures, and notebooks, download the report or visit the GitHub repository.</p>
+      </div>
+      <div class="col-md-4 text-md-end">
+        <p class="small">© 2025 Group 10</p>
+      </div>
+    </div>
+  </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
