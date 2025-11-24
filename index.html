@@ -204,6 +204,68 @@ for epoch in range(epochs):
     </div>
   </section>
 
+  <!-- ================= Gallery Section ================= -->
+  <section id="gallery" class="mb-5">
+    <h2>Project Figures & Images</h2>
+    <p>All relevant figures and visuals from our KMNIST experiments:</p>
+  
+    <div id="gallery-container" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+      <!-- Gallery cards will be injected here by JavaScript -->
+    </div>
+  </section>
+  
+  <!-- ================= Gallery Script ================= -->
+  <script>
+    // List all image filenames in the 'images/' folder (update this list!)
+    const imageFiles = [
+      "Class distribution in training set.png",
+      "ResNet-like-CNN - Test Confusion Matrix.png",
+      "Confusion Matrix – Logistic Regression.png",
+      "Simple CNN Test Confusion Matrix.png",
+      "Improved CNN - Test Confusion Matrix.png",
+      "Tuned Improved CNN - Test Confusion Matrix.png",
+      "Misclassified examples for TunedImprovedCNN.png",
+      "Tuned Improved CNN - Train Confusion Matrix.png",
+      "PCA visualization of KMNIST.png"
+    ];
+    
+    const galleryContainer = document.getElementById('gallery-container');
+  
+    imageFiles.forEach(filename => {
+      // Create column
+      const col = document.createElement('div');
+      col.className = 'col';
+  
+      // Create card
+      const card = document.createElement('div');
+      card.className = 'card h-100';
+  
+      // Create image
+      const img = document.createElement('img');
+      img.src = `images/${filename}`;
+      img.alt = filename.split('.')[0].replace(/_/g, ' ');
+      img.className = 'card-img-top card-figure';
+  
+      // Create card body
+      const cardBody = document.createElement('div');
+      cardBody.className = 'card-body';
+  
+      // Caption
+      const caption = document.createElement('p');
+      caption.className = 'card-text';
+      caption.textContent = filename.split('.')[0].replace(/_/g, ' ');
+  
+      // Assemble card
+      cardBody.appendChild(caption);
+      card.appendChild(img);
+      card.appendChild(cardBody);
+      col.appendChild(card);
+  
+      // Append to gallery container
+      galleryContainer.appendChild(col);
+    });
+  </script>
+
   <section id="fewshot" class="mb-5">
     <h2>Research Extension — Few-Shot & Metric Learning</h2>
     <p>We evaluated the Simple CNN in severely limited-data regimes and implemented a Siamese network for metric learning.</p>
