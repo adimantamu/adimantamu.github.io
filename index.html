@@ -281,20 +281,27 @@ for epoch in range(epochs):
 
   <section id="fewshot" class="mb-5">
     <h2>Research Extension — Few-Shot & Metric Learning</h2>
-    <p>We evaluated the Simple CNN in severely limited-data regimes and implemented a Siamese network for metric learning.</p>
+    <p>Few-shot learning focuses on training models that can generalize from only a handful of labeled examples per class. This setting is fundamentally different from traditional deep learning, which typically requires hundreds or thousands of samples to achieve competitive performance. Few-shot methods are designed to mimic human-like learning — humans can often recognize a new object or pattern after seeing just one or two examples, and few-shot frameworks aim to replicate this ability.</p>
+
+    <p>Few-shot learning is particularly important in scenarios where data collection is difficult, expensive, or impractical. Examples include medical imaging (rare diseases), wildlife conservation (rare species), cybersecurity (new attack patterns), or any domain where classes evolve rapidly and labeled data is scarce. Instead of relying on large-scale supervised training, few-shot models learn to compare, measure similarity, and transfer knowledge from previously seen classes.</p>
+
+    <h5>What is a Siamese Network?</h5>
+    <p>A Siamese network is a neural architecture consisting of two identical subnetworks that share weights. Rather than directly predicting class labels, Siamese models learn an embedding space where semantically similar inputs lie close together and dissimilar ones lie farther apart. During training, the model receives pairs of images along with a label indicating whether they belong to the same class. The network then learns to minimize the distance between same-class pairs and maximize the distance between different-class pairs.</p>
+
+    <p>This approach is known as <strong>metric learning</strong> — instead of classifying inputs using a traditional softmax output, the network learns a feature representation where simple distance metrics (e.g., Euclidean distance) can be used for classification. This makes Siamese networks highly effective in low-data regimes because the model does not need to be retrained every time a new class is introduced. Instead, new examples can be embedded into the learned feature space and compared with a few prototypes.</p>
 
     <h5>Few-shot supervised baseline</h5>
-    <p>With only K labeled samples per class the Simple CNN obtains:</p>
+    <p>With only K labeled samples per class, the Simple CNN performs poorly due to overfitting and lack of generalization:</p>
     <ul>
       <li>K=1 → 32.21% test accuracy</li>
       <li>K=5 → 45.08% test accuracy</li>
       <li>K=10 → 53.34% test accuracy</li>
     </ul>
 
-    <h5>Siamese network</h5>
-    <p>A Siamese convolutional network trained with contrastive loss produced a 256-D embedding. In 10-way one-shot evaluation using nearest-prototype classification, it reached <strong>77.67%</strong> accuracy — a large improvement for extreme low-data scenarios.</p>
+    <h5>Siamese Network Performance</h5>
+    <p>The Siamese convolutional network was trained using contrastive loss to produce a compact 256‑dimensional embedding for each image. During evaluation, a simple nearest‑prototype classifier was used: each class was represented by its support example, and test samples were assigned based on the closest embedding distance. Under a 10‑way one‑shot setting, the model achieved <strong>77.67%</strong> accuracy — a significant improvement compared to standard supervised training.</p>
 
-    <blockquote class="blockquote">Practical note: metric learning is often more robust than naïve supervised training in one-shot/low-shot settings because it optimizes for instance similarity rather than mapping inputs directly to labels.</blockquote>
+    <blockquote class="blockquote">Practical note: metric learning is more robust in one-shot and low-shot settings because it learns how to compare examples rather than memorize class-specific parameters.</blockquote>
   </section>
 
   <section id="resources" class="mb-5">
