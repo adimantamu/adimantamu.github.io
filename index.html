@@ -204,6 +204,28 @@ for epoch in range(epochs):
     </div>
   </section>
 
+  <section id="insights" class="mb-5">
+    <h2>Business Insights</h2>
+    <p>Based on our experimental results and misclassification analysis, several insights emerge for real-world applications of KMNIST-like character recognition systems.</p>
+    
+    <ul>
+      <li><strong>High-accuracy CNN models (≥97%) are suitable for production deployment</strong> where reading historical or handwritten scripts is required—such as digitizing Japanese archives or automating documentation workflows.</li>
+      <li><strong>Error patterns indicate specific characters that need specialized augmentation</strong> due to visual similarity. Targeted augmentation or class-specific tuning can improve these weak spots.</li>
+      <li><strong>Few-shot and Siamese networks enable low-data deployment</strong> in scenarios where annotated samples are expensive to collect (e.g., rare symbols, historical variants).</li>
+      <li><strong>Interpretability tools (e.g., saliency maps) show which strokes contribute to predictions</strong>, supporting real-world audits of model reliability.</li>
+      <li><strong>Model size vs. accuracy trade-offs</strong> suggest the Improved CNN is optimal for edge deployment due to high accuracy with moderate complexity.</li>
+    </ul>
+  </section>
+  
+  <section id="conclusion" class="mb-5">
+    <h2>Conclusion</h2>
+    <p>This project demonstrated that convolutional neural networks dramatically outperform linear baselines on KMNIST, with our TunedImprovedCNN achieving a state-of-the-art accuracy of 97%. Through error analysis and visualization, we identified the model’s strengths and limitations.</p>
+  
+    <p>Further, the few-shot and Siamese experiments showed that metric-learning approaches significantly enhance performance when labeled data is limited, achieving 77.67% in one-shot classification.</p>
+  
+    <p>Overall, our study highlights the importance of careful architecture design, hyperparameter tuning, and interpretability techniques in building reliable character recognition systems for real-world use.</p>
+  </section>
+
   <!-- ================= Gallery Section ================= -->
   <section id="gallery" class="mb-5">
     <h2>Project Figures & Images</h2>
